@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package datastream.v1;
+
+option go_package = "github.com/malharrrr/datastream/proto";
+
+service DataStreamService {
+  // Fetch the most recent tick for a symbol
+  rpc GetLatestTick(GetLatestTickRequest) returns (Tick) {}
+  
+  // Fetch historical data
+  rpc GetTickRange(GetTickRangeRequest) returns (TickRange) {}
+  
+  // Server-side streaming for real-time updates
+  rpc Subscribe(SubscribeRequest) returns (stream Tick) {}
+}
+
+message GetLatestTickRequest {
+  string symbol = 1;
+}
+
+message GetTickRangeRequest {
+  string symbol = 1;
+  int64 start_time_ms = 2;
+  int64 end_time_ms = 3;
+}
+
+message SubscribeRequest {
+  repeated string symbols = 1; 
+}
+
+message Tick {
+  string symbol = 1;           
+  string exchange = 2;         
+  int64 timestamp_ms = 3;      
+  double open = 4;
+  double high = 5;
+  double low = 6;
+  double close = 7;
+  int64 volume = 8;
+  double vwap = 9;           
+  int32 tick_count = 10;  
+  string data_source = 11; 
+  int64 received_at_ms = 12;   
+}
+
+message TickRange {
+  repeated Tick ticks = 1;
+  string symbol = 2;
+  int64 start_time = 3;
+  int64 end_time = 4;
+}
