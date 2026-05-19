@@ -1,0 +1,11 @@
+# Environments
+.env
+
+# Go binaries
+/datastream
+/bin/
+
+# Dependency directories
+vendor/
+
+MVP.md
